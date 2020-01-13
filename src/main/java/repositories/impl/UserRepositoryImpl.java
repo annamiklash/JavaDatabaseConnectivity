@@ -1,7 +1,6 @@
 package repositories.impl;
 
 import dto.User;
-import mappers.impl.UserExistsMapper;
 import mappers.impl.UserIdMapper;
 import mappers.impl.UserMapper;
 import mappers.impl.UsersMapper;
@@ -57,9 +56,8 @@ public class UserRepositoryImpl implements UserRepository {
             preparedStatement.setString(4, '%' + userName);
 
             final ResultSet resultSet = preparedStatement.executeQuery();
-            final List<User> userList = new UsersMapper().map(resultSet);
 
-            return userList;
+            return new UsersMapper().map(resultSet);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -77,9 +75,8 @@ public class UserRepositoryImpl implements UserRepository {
             preparedStatement.setInt(1, id);
 
             final ResultSet resultSet = preparedStatement.executeQuery();
-            final User user = new UserMapper().map(resultSet);
 
-            return user;
+            return new UserMapper().map(resultSet);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -96,15 +93,12 @@ public class UserRepositoryImpl implements UserRepository {
             preparedStatement.setInt(1, groupId);
 
             final ResultSet resultSet = preparedStatement.executeQuery();
-
-            final List<User> userList = new UsersMapper().map(resultSet);
-
-            return userList;
+            return new UsersMapper().map(resultSet);
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
@@ -114,9 +108,9 @@ public class UserRepositoryImpl implements UserRepository {
             final PreparedStatement preparedStatement = getConnection().prepareStatement(sql);
 
             final ResultSet resultSet = preparedStatement.executeQuery();
-
             resultSet.next();
             return resultSet.getInt(1);
+
         } catch (SQLException e) {
             e.printStackTrace();
         }

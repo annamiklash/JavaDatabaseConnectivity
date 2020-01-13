@@ -21,6 +21,7 @@ public abstract class RepositoryTestBase<DTOType extends Base, TRepository exten
     public void after() {
         if (repository != null) {
             repository.rollbackTransaction();
+            //repository.commitTransaction();
         }
     }
 

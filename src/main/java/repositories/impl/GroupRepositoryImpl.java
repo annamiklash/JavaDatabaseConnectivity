@@ -1,7 +1,6 @@
 package repositories.impl;
 
 import dto.Group;
-import mappers.impl.GroupExistsMapper;
 import mappers.impl.GroupIdMapper;
 import mappers.impl.GroupMapper;
 import mappers.impl.GroupsMapper;
@@ -9,6 +8,7 @@ import repositories.GroupRepository;
 import singleton.ConnectionSingleton;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GroupRepositoryImpl implements GroupRepository {
@@ -58,9 +58,8 @@ public class GroupRepositoryImpl implements GroupRepository {
             preparedStatement.setString(4, '%' + name);
 
             final ResultSet resultSet = preparedStatement.executeQuery();
-            final List<Group> groupList = new GroupsMapper().map(resultSet);
 
-            return groupList;
+            return new GroupsMapper().map(resultSet);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -78,9 +77,8 @@ public class GroupRepositoryImpl implements GroupRepository {
             preparedStatement.setInt(1, id);
 
             final ResultSet resultSet = preparedStatement.executeQuery();
-            final Group group = new GroupMapper().map(resultSet);
 
-            return group;
+            return new GroupMapper().map(resultSet);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -97,13 +95,11 @@ public class GroupRepositoryImpl implements GroupRepository {
 
             final ResultSet resultSet = preparedStatement.executeQuery();
 
-            final List<Group> groupList = new GroupsMapper().map(resultSet);
-
-            return groupList;
+            return new GroupsMapper().map(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
